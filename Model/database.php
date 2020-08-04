@@ -4,12 +4,14 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
+require 'secret.php';
+
 function openConnection(): PDO
 {
 $dbhost = "localhost";
-$dbuser = "user";
-$dbpass = "passw";
-$db = "PriceCalc_db";
+$dbuser = DB_USER;
+$dbpass = DB_PASS;
+$db = DB_NAME;
 
 $driverOptions = [
 PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
