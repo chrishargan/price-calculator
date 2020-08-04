@@ -1,5 +1,8 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 
 class HomepageController
 {
@@ -8,13 +11,12 @@ class HomepageController
     {
         //you should not echo anything inside your controller - only assign vars here
         // then the view will actually display them.
-        $products = selectProducts();
-        $customers = selectCustomers();
+        $database = new Database();
+        $customers = $database->selectCustomers();
+        $products = $database->selectProducts();
 
         //load the view
         require 'View/homepage.php';
     }
 }
 
-$controller = new HomepageController();
-$controller->render();

@@ -10,5 +10,5 @@
 </head>
 <body>
     <header>
-        <h1 class="text-center my-3">Welcome to the local shop</h1>
+        <h1 class="text-center text-primary my-3">Welcome to the local shop</h1>
     </header>
