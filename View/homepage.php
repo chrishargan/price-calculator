@@ -2,10 +2,26 @@
 <!-- this is the view, try to put only simple if's and loops here.
 Anything complex should be calculated in the model -->
 <section>
-    <h4>Hello <?php echo $customer->getLastname()?>,</h4>
+    <h4>Hello <?php echo $customer->getFirstName()." ".$customer->getLastName(); ?>,</h4>
     <p><a href="index.php?page=info">To info page</a></p>
 
     <p>Put your content here.</p>
+    <!-- Customer -->
+    <section class="my-3">
+        <form method="get">
+            <div id="dropdown">
+                <select class="mb-1" name="customer">
+                    <option value="0">Customer</option>
+                    <?php
+                    $counter = 1;
+                    foreach ($selectCustomers as $customer) {
+                        echo '<option value="'.$counter++.'">'.$customer.'</option>';
+                    } ?>
+                </select>
+            </div>
+            <input id="linkBtn" type="submit" name="send" value="Select name">
+        </form>
+    </section>
     <!-- Products -->
     <section class="my-3">
         <form method="get">
@@ -18,18 +34,7 @@ Anything complex should be calculated in the model -->
             <input id="linkBtn" type="submit" name="send" value="Choose product">
         </form>
     </section>
-    <!-- Customer -->
-    <section class="my-3">
-        <form method="get">
-            <div id="dropdown">
-                <select class="mb-1" name="customer">
-                    <option value="0">Customer</option>
 
-                </select>
-            </div>
-            <input id="linkBtn" type="submit" name="send" value="Select name">
-        </form>
-    </section>
     <!-- Customer group -->
     <section class="my-3">
         <form method="get">
