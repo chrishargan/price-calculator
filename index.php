@@ -6,6 +6,8 @@ error_reporting(E_ALL);
 
 //include all your model files here
 require 'Model/Customer.php';
+require 'Model/Product.php';
+require 'Model/CustomerGroup.php';
 require 'Model/database.php';
 
 //include all your controllers here
