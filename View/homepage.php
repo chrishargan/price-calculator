@@ -13,9 +13,9 @@ Anything complex should be calculated in the model -->
                 <select class="mb-1" name="customer">
                     <option value="0">Customer</option>
                     <?php
-                    $counter = 1;
-                    foreach ($selectCustomers as $customer) {
-                        echo '<option value="'.$counter++.'">'.$customer.'</option>';
+
+                    foreach ($customers as $customer) {
+                        echo '<option value="$customer->getId()">'.$customer->getFirstName().' '.$customer->getLastName().'</option>';
                     } ?>
                 </select>
             </div>
