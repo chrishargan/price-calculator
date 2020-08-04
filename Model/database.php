@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 
 require 'secret.php';
 
+//make connection to database
 function openConnection(): PDO
 {
 $dbhost = "localhost";
@@ -22,41 +23,41 @@ PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
 return new PDO('mysql:host=' . $dbhost . ';dbname=' . $db, $dbuser, $dbpass, $driverOptions);
 }
 
-//fetch customer names
+//fetch customer id & names
 function selectCustomers() {
     $pdo = openConnection();
-    $getCustomers = $pdo->prepare('SELECT firstname, lastname FROM customer');
+    $getCustomers = $pdo->prepare('SELECT id, firstname, lastname FROM customer');
     $getCustomers->execute();
     $customers = $getCustomers->fetchAll();
     $selectCustomers = [];
     foreach ($customers as $customer) {
-        $selectCustomers[] = new Customer($customer['firstname'], $customer['lastname']);
+        $selectCustomers[] = new Customer((int)$customer['id'], $customer['firstname'], $customer['lastname']);
     }
     return $selectCustomers;
 }
 
-//fetch products & prices
+//fetch products id, name & prices
 function selectProducts() {
     $pdo = openConnection();
-    $getProducts = $pdo->prepare('SELECT name, price FROM product');
+    $getProducts = $pdo->prepare('SELECT id, name, price FROM product');
     $getProducts->execute();
     $products = $getProducts->fetchAll();
     $selectProducts = [];
     foreach ($products as $product) {
-        $selectProducts[] = new Product($product['name'], (int)$product['price']);
+        $selectProducts[] = new Product((int)$product['id'], $product['name'], (int)$product['price']);
     }
     return $selectProducts;
 }
 
-//fetch customer groups & discounts
+//fetch customer groups id, name & discounts
 function selectGroups() {
     $pdo = openConnection();
-    $getGroups = $pdo->prepare('SELECT name, fixed_discount, variable_discount FROM customer_group');
+    $getGroups = $pdo->prepare('SELECT id, parent_id, name, fixed_discount, variable_discount FROM customer_group');
     $getGroups->execute();
     $groups = $getGroups->fetchAll();
     $selectGroups = [];
     foreach ($groups as $group) {
-            $selectGroups[] = new CustomerGroup($group['name'], (int)$group['fixed_discount'], (int)$group['variable_discount']);
+            $selectGroups[] = new CustomerGroup((int)$group['id'], (int)$group['parent_id'], $group['name'], (int)$group['fixed_discount'], (int)$group['variable_discount']);
     }
     return $selectGroups;
 }
