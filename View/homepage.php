@@ -10,7 +10,6 @@ Anything complex should be calculated in the model -->
 <section>
     <h4>Hello,</h4>
     <p><a href="../index.php?page=info">To info page</a></p>
-
     <!-- Customer -->
     <section class="m-3">
         <form method="get">
@@ -47,7 +46,10 @@ Anything complex should be calculated in the model -->
             <div id="dropdown">
                 <select class="mb-1" name="group">
                     <option value="0">Company</option>
-
+                    <?php
+                    foreach ($groups as $group) {
+                        echo '<option value="'.$group->getId().'">'.$group->getGroupName().' '.$group->getFixDiscount().' &euro; - '.$group->getVarDiscount().' %</option>';
+                    } ?>
                 </select>
             </div>
             <input id="linkBtn" type="submit" name="send" value="Select company">
