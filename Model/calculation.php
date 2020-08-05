@@ -11,8 +11,15 @@ switch ($discount) {
 
 }
 $x=  ;
-if ((fixedpersonalDiscount !=0) && variablePersonalDiscount != 0) {
+if ((fixedpersonalDiscount !=0) || variablePersonalDiscount != 0) {
     personalDiscount= $x
 }
+
+if (departmentDiscountFixed != 0 || departmentVariableDiscount != 0) {
+
+departmentDiscount = $y
+}
+
+if (departmentHas
 
 */
