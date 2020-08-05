@@ -13,6 +13,7 @@ require 'Model/ProductLoader.php';
 require 'Model/Group.php';
 require 'Model/GroupLoader.php';
 require 'Model/secret.php';
+require 'Model/calculation.php';
 
 
 //include controllers
