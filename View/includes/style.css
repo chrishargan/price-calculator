@@ -1,0 +1,7 @@
+* {
+    display: grid;
+    place-items: center;
+}
+h1 {
+    color: red;
+}
