@@ -8,8 +8,7 @@ require 'includes/header.php'?>
 <!-- this is the view, try to put only simple if's and loops here.
 Anything complex should be calculated in the model -->
 <section>
-    <h4>Hello,</h4>
-    <p><a href="../index.php?page=info">To info page</a></p>
+
     <!-- Customer -->
     <section class="m-3">
         <form method="get">
@@ -22,12 +21,6 @@ Anything complex should be calculated in the model -->
                     } ?>
                 </select>
             </div>
-            <input id="linkBtn" type="submit" name="send" value="Select name">
-        </form>
-    </section>
-    <!-- Products -->
-    <section class="m-3">
-        <form method="get">
             <div id="dropdown">
                 <select class="mb-1" name="product">
                     <option value="0">Product</option>
@@ -37,22 +30,9 @@ Anything complex should be calculated in the model -->
                     } ?>
                 </select>
             </div>
-            <input id="linkBtn" type="submit" name="send" value="Choose product">
+            <input id="linkBtn" type="submit" name="send" value="Checkout">
         </form>
     </section>
-    <!-- Customer group -->
-    <section class="m-3">
-        <form method="get">
-            <div id="dropdown">
-                <select class="mb-1" name="group">
-                    <option value="0">Company</option>
-                    <?php
-                    foreach ($groups as $group) {
-                        echo '<option value="'.$group->getId().'">'.$group->getGroupName().' '.$group->getFixDiscount().' &euro; - '.$group->getVarDiscount().' %</option>';
-                    } ?>
-                </select>
-            </div>
-            <input id="linkBtn" type="submit" name="send" value="Select company">
-        </form>
-    </section>
+
+
 <?php require 'includes/footer.php'?>

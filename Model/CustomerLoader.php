@@ -6,16 +6,22 @@ error_reporting(E_ALL);
 
 class  CustomerLoader extends DatabaseLoader
 {
-    public function selectCustomers()
+    private array $customers;
+
+    public function __construct()
     {
         $pdo = $this->openConnection();
         $getCustomers = $pdo->prepare('SELECT * FROM customer');
         $getCustomers->execute();
         $customers = $getCustomers->fetchAll();
-        $selectCustomers = [];
         foreach ($customers as $customer) {
-            $selectCustomers[] = new Customer((int)$customer['id'], $customer['firstname'], $customer['lastname'], (int)$customer['group_id'], (int)$customer['fixed_discount'], (int)$customer['variable_discount']);
+            $this->customers[$customer['id']] = new Customer((int)$customer['id'], $customer['firstname'], $customer['lastname'],  (int)$customer['fixed_discount'], (int)$customer['variable_discount'], (int)$customer['group_id']);
         }
-        return $selectCustomers;
     }
+
+    public function getCustomers(): array
+    {
+        return $this->customers;
+    }
+
 }

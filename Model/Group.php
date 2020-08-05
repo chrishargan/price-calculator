@@ -7,18 +7,18 @@ error_reporting(E_ALL);
 class Group
 {
     private int $id;
-    private int $parentId;
     private string $groupName;
     private int $fixDiscount;
     private int $varDiscount;
+    private int $parent_id;
 
-    public function __construct(int $id, int $parentId, string $groupName, int $fixDiscount, int $varDiscount)
+    public function __construct(int $id, string $groupName, int $fixDiscount, int $varDiscount, int $parent_id)
     {
         $this->id = $id;
-        $this->parentId = $parentId;
         $this->groupName = $groupName;
         $this->fixDiscount = $fixDiscount;
         $this->varDiscount = $varDiscount;
+        $this->parent_id = $parent_id;
     }
 
     public function getId(): int
@@ -44,5 +44,9 @@ class Group
     public function getVarDiscount(): int
     {
         return $this->varDiscount;
+    }
+
+    public function getParentGroup() : array {
+
     }
 }

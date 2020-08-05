@@ -12,11 +12,12 @@ require 'Model/Product.php';
 require 'Model/ProductLoader.php';
 require 'Model/Group.php';
 require 'Model/GroupLoader.php';
-require 'Model/secret.php';
+require 'Model/ignored.php';
+require 'Model/calculation.php';
+
 
 //include controllers
 require 'Controller/HomepageController.php';
-require 'Controller/InfoController.php';
 
 //you could write a simple IF here based on some $_GET or $_POST vars, to choose your controller
 //this file should never be more than 20 lines of code!
