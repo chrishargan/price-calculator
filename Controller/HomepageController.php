@@ -12,11 +12,12 @@ class HomepageController
         //you should not echo anything inside your controller - only assign vars here
         // then the view will actually display them.
         $fetchCustomers = new CustomerLoader();
+        $customers = $fetchCustomers->getCustomers();
+        var_dump($customers);
         $fetchProducts = new ProductLoader();
-        $customers = $fetchCustomers->selectCustomers();
-        $products = $fetchProducts->selectProducts();
-        $groupFetch = new GroupLoader();
-        $groups = $groupFetch->selectGroups();
+        $products = $fetchProducts->getProducts();
+        var_dump($products);
+
 
         //load the view
         require 'View/homepage.php';

@@ -6,16 +6,21 @@ error_reporting(E_ALL);
 
 class  ProductLoader extends DatabaseLoader
 {
-    public function selectProducts()
+    private array $products;
+
+    public function __construct()
     {
         $pdo = $this->openConnection();
         $getProducts = $pdo->prepare('SELECT * FROM product');
         $getProducts->execute();
         $products = $getProducts->fetchAll();
-        $selectProducts = [];
         foreach ($products as $product) {
-            $selectProducts[] = new Product((int)$product['id'], $product['name'], (int)$product['price']);
+            $this->products[$product['id']] = new Product((int)$product['id'], $product['name'], (int)$product['price']);
         }
-        return $selectProducts;
+    }
+
+    public function getProducts(): array
+    {
+        return $this->products;
     }
 }

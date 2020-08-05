@@ -6,16 +6,21 @@ error_reporting(E_ALL);
 
 class  GroupLoader extends DatabaseLoader
 {
-    //fetch customer groups id, name & discounts
-    public function selectGroups() {
+    private array $groups;
+
+    public function __construct()
+    {
         $pdo = $this->openConnection();
-        $getGroups = $pdo->prepare('SELECT * FROM customer_group');
-        $getGroups->execute();
-        $groups = $getGroups->fetchAll();
-        $selectGroups = [];
+        $getGroup = $pdo->prepare('SELECT * FROM customer_group');
+        $getGroup->execute();
+        $groups = $getGroup->fetchAll();
         foreach ($groups as $group) {
-            $selectGroups[] = new Group((int)$group['id'], (int)$group['parent_id'], $group['name'], (int)$group['fixed_discount'], (int)$group['variable_discount']);
+            $this->groups[$group['id']] = new Group((int)$group['id'], $group['name'], (int)$group['fixed_discount'], (int)$group['variable_discount'], (int)$group['parent_id']);
         }
-        return $selectGroups;
+    }
+
+    public function getGroups(): array
+    {
+        return $this->groups;
     }
 }
