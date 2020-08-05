@@ -5,10 +5,13 @@ ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
 //include model files
+require 'Model/DatabaseLoader.php';
 require 'Model/Customer.php';
+require 'Model/CustomerLoader.php';
 require 'Model/Product.php';
-require 'Model/CustomerGroup.php';
-require 'Model/Database.php';
+require 'Model/ProductLoader.php';
+require 'Model/Group.php';
+require 'Model/GroupLoader.php';
 require 'Model/secret.php';
 
 //include controllers
