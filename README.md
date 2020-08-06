@@ -80,7 +80,6 @@ require 'View/homepage.php';
 
 ## Must-have features
 - A dropdown where you can select a Product and a Customer and you get the basic information of the product + the price.
-- A category page
 - Use a [MVC pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)
 - Use separate objects for importing the entities with JSON, and for managing the entities.
 

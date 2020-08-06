@@ -53,4 +53,33 @@ class Customer
     {
         return $this->group;
     }
+
+    public function variableDiscountArray($group, $arrayVar = []) : array {
+        $arrayVar[] = $group->getVarDiscount();
+        if($group->getGroup() !== null) {
+            $arrayVar = $this->variableDiscountArray($group->getGroup(), $arrayVar);
+        }
+        return $arrayVar;
+    }
+
+    public function fixedDiscountArray($group, $arrayFix = []) {
+        $arrayFix[] = $group->getFixDiscount();
+        if($group->getGroup() !== null) {
+            $arrayFix = $this->fixedDiscountArray($group->getGroup(), $arrayFix);
+        }
+        return $arrayFix;
+    }
+
+    public function calculatePrice(Product $product) : float {
+        $fixed = array_sum($this->fixedDiscountArray($this->group))*100;
+        $max = max($this->variableDiscountArray($this->group));
+        $price = $product->getPrice();
+        $variable = (($price/100) * $max);
+        if ($variable > $fixed) {
+            $result = $variable;
+        } else {
+            $result = $fixed;
+        }
+        return $result;
+    }
 }

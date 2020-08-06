@@ -5,11 +5,11 @@ ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
 require 'includes/header.php'?>
-<!-- this is the view, try to put only simple if's and loops here.
+<!-- this is the view, only simple if's and loops here.
 Anything complex should be calculated in the model -->
-<section>
 
-    <!-- Customer -->
+<article>
+    <!-- Select customer & product -->
     <section class="m-3">
         <form method="get">
             <div id="dropdown">
@@ -33,6 +33,10 @@ Anything complex should be calculated in the model -->
             <input id="linkBtn" type="submit" name="send" value="Checkout">
         </form>
     </section>
-
+    <!-- Output order -->
+    <section class="m-3">
+        <?= $order ?>
+    </section>
+</article>
 
 <?php require 'includes/footer.php'?>

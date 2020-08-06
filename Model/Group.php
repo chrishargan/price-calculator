@@ -51,4 +51,9 @@ class Group
         return $this->parent_id;
     }
 
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
 }
