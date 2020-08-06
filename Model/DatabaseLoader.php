@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 
 class  DatabaseLoader
 {
-    protected function openConnection(): PDO
+    public function openConnection(): PDO
     {
         $dbhost = "localhost";
         $dbuser = DB_USER;
@@ -21,6 +21,8 @@ class  DatabaseLoader
 
         return new PDO('mysql:host=' . $dbhost . ';dbname=' . $db, $dbuser, $dbpass, $driverOptions);
     }
+
+
 }
 
 

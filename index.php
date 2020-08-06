@@ -12,7 +12,7 @@ require 'Model/Product.php';
 require 'Model/ProductLoader.php';
 require 'Model/Group.php';
 require 'Model/GroupLoader.php';
-require 'Controller/calculatorController.php';
+require 'Model/DB_Connector.php';
 
 
 

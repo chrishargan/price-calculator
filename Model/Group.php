@@ -24,6 +24,7 @@ class Group
         //check if parent_id is not 0, if so it is the parent, otherwise get the group with the parent_id
         $groups = $groupLoader->getGroups();
         $this->group = ($parent_id !== 0) ? $groups[$parent_id] : null;
+     //   $this->updateDiscount();
     }
 
     public function getId(): int
@@ -41,6 +42,7 @@ class Group
         return $this->fixDiscount;
     }
 
+
     public function getVarDiscount(): int
     {
         return $this->varDiscount;
@@ -51,4 +53,30 @@ class Group
         return $this->parent_id;
     }
 
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    public function updateDiscount() {
+        $databaseQuery = new DatabaseLoader();
+        $databaseQuery->openConnection();
+        $statement = $databaseQuery->prepare('SELECT parent_id, fixed_discount, variable_discount from customer_group where id = :parent_id');
+        $statement->bindValue('parent_id', $this->getParentId());
+        $statement->execute();
+        $newDiscountsArray = $statement->fetch();
+
+        if ($newDiscountsArray['fixed_discount']) {
+            $this->fixDiscount += intval($newDiscountsArray['fixed_discount']);
+        } elseif ($newDiscountsArray['variable_discount'] > $this->getVarDiscount())
+        {
+            $this->varDiscount = intval($newDiscountsArray['variable_discount']);
+        }
+        if ($newDiscountsArray['parent_id'])
+        {
+            $this->parentId = $newDiscountsArray['parent_id'];
+            $this->updateDiscount();
+        }
+
+   }
 }
