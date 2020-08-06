@@ -11,16 +11,17 @@ class Customer
     private string $lastName;
     private int $fixDiscount;
     private int $varDiscount;
-    private int $group_id;
+    private Group $group;
 
-    public function __construct(int $id, string $firstName, string $lastName, int $fixDiscount, int $varDiscount, int $group_id)
+    public function __construct(int $id, string $firstName, string $lastName, int $fixDiscount, int $varDiscount, Group $group)
+        //nest Group data in Customer
     {
         $this->id = $id;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->fixDiscount = $fixDiscount;
         $this->varDiscount = $varDiscount;
-        $this->group_id = $group_id;
+        $this->group = $group;
     }
 
     public function getId()
@@ -48,9 +49,8 @@ class Customer
         return $this->varDiscount;
     }
 
-    public function getGroupId(): int
+    public function getGroup(): Group
     {
-        return $this->group_id;
+        return $this->group;
     }
-
 }
