@@ -12,7 +12,6 @@ require 'Model/Product.php';
 require 'Model/ProductLoader.php';
 require 'Model/Group.php';
 require 'Model/GroupLoader.php';
-require 'Model/ignored.php';
 require 'Model/calculation.php';
 
 
