@@ -12,7 +12,8 @@ require 'Model/Product.php';
 require 'Model/ProductLoader.php';
 require 'Model/Group.php';
 require 'Model/GroupLoader.php';
-require 'Model/calculation.php';
+require 'Controller/calculatorController.php';
+
 
 
 //include controllers
