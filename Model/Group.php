@@ -58,25 +58,5 @@ class Group
         return $this->group;
     }
 
-    public function updateDiscount() {
-        $databaseQuery = new DatabaseLoader();
-        $databaseQuery->openConnection();
-        $statement = $databaseQuery->prepare('SELECT parent_id, fixed_discount, variable_discount from customer_group where id = :parent_id');
-        $statement->bindValue('parent_id', $this->getParentId());
-        $statement->execute();
-        $newDiscountsArray = $statement->fetch();
 
-        if ($newDiscountsArray['fixed_discount']) {
-            $this->fixDiscount += intval($newDiscountsArray['fixed_discount']);
-        } elseif ($newDiscountsArray['variable_discount'] > $this->getVarDiscount())
-        {
-            $this->varDiscount = intval($newDiscountsArray['variable_discount']);
-        }
-        if ($newDiscountsArray['parent_id'])
-        {
-            $this->parentId = $newDiscountsArray['parent_id'];
-            $this->updateDiscount();
-        }
-
-   }
 }

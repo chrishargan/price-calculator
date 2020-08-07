@@ -46,7 +46,8 @@ class HomepageController
 
 
         //load the view
-        require 'View/homepage.php';
+
+        require   __DIR__  . "/../View/homepage.php";
 
     }
 }
