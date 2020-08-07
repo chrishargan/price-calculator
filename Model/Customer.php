@@ -54,6 +54,7 @@ class Customer
         return $this->group;
     }
 
+    //make array of variable discounts of the groups with recursive function to get data out of tree
     public function variableDiscountArray($group, $arrayVar = []) : array {
         $arrayVar[] = $group->getVarDiscount();
         if($group->getGroup() !== null) {
@@ -62,6 +63,7 @@ class Customer
         return $arrayVar;
     }
 
+    //make array of fixed discounts of the groups with recursive function to get data out of tree
     public function fixedDiscountArray($group, $arrayFix = []) {
         $arrayFix[] = $group->getFixDiscount();
         if($group->getGroup() !== null) {
@@ -70,16 +72,41 @@ class Customer
         return $arrayFix;
     }
 
+    //calculate highest discount of the groups
     public function calculatePrice(Product $product) : float {
-        $fixed = array_sum($this->fixedDiscountArray($this->group))*100;
-        $max = max($this->variableDiscountArray($this->group));
         $price = $product->getPrice();
-        $variable = (($price/100) * $max);
-        if ($variable > $fixed) {
-            $result = $variable;
-        } else {
-            $result = $fixed;
+        //fixed discounts get added up
+        $fixGroup = array_sum($this->fixedDiscountArray($this->group))*100;
+        //get biggest variable discount
+        $varGroup = (($price/100) * max($this->variableDiscountArray($this->group)));
+        //check if fixed discount or variable discount of the group is bigger
+        $varGroup > $fixGroup ? $resultGroupVar = $varGroup : $resultGroupFix = $fixGroup;
+        //compare the result with the customer discount
+        $varCustomer = ($price/100) * $this->getVarDiscount();
+        $fixCustomer = $this->getFixDiscount()*100;
+        if (isset($resultGroupFix)) {
+            if ($fixCustomer !== null) {
+                $price = $price - $resultGroupFix - $fixCustomer;
+            } elseif ($resultGroupFix > $varCustomer) {
+                $price -= $resultGroupFix;
+            } else {
+                $price -= $resultGroupVar;
+            }
+        } elseif (isset($resultGroupVar)) {
+            if ($varCustomer !== null) {
+                $price -= max($resultGroupVar, $varCustomer);
+            } elseif ($fixCustomer !== null && $fixCustomer > $resultGroupVar) {
+                $price -= $fixCustomer;
+            } else {
+                $price -= $resultGroupVar;
+            }
         }
-        return $result;
+        //price with 2 decimals
+        $price = round($price/100, 2);
+        //price cannot be lower than 0
+        if ($price < 0) {
+            $price = 0;
+        }
+        return $price;
     }
 }
