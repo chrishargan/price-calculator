@@ -14,29 +14,26 @@ class HomepageController
 
         $productloader = new ProductLoader();
         $products = $productloader ->getProducts();
-
         $customersLoader = new CustomerLoader();
         $customers = $customersLoader->getCustomers();
-        $customer1 = $customers[4];
+        $customer1 = $customers[$_GET['customer']];
+        $productSelected = $products[$_GET['product']];
         /**
          * @var Customer $customer1
          */
-        $max= $customer1->finalVariableDiscount($products[5]);
-        $fix = $customer1->sumFixedDiscount();
+        $var = $customer1->finalVariableDiscount($productSelected);
+        $fix = $customer1->sumFixedDiscount($productSelected);
+        $price = $customer1->calculatePrice($productSelected);
 
-         $message= "";
+
+
+        $message= "";
         if(isset($_GET['product'], $_GET['customer'])){
           $customer = $customers[(int)$_GET['customer']];
-          var_dump($customer->getGroup());
-
-
-          // $finalPrice = $customer->CalculatorPrice($products[(int)$_POST['product']])/100;
+          var_dump($price);
         }
 
-     /*   if(isset($DiscountedPrice)) {
-            $DiscountedPriceDisplayed= number_format($finalPrice, 2);
-         $message = "<h5 class = 'text-center bg-danger text-white p-3 font-weight-bold'> Total cost: &euro; {$DiscountedPriceDisplayed}";
-    }*/
+
 
         //load the view
         require 'View/homepage.php';

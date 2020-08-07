@@ -79,7 +79,7 @@ class Customer
         }
     }
 
-
+// Creates array of all group related Variable discounts
     public function arrayOfVariableDiscounts(Group $group, $array = []): array
     {
         $array[] = $group->getVarDiscount();
@@ -92,17 +92,20 @@ class Customer
 
     }
 
+// returns the variable discount of the highest percentage
     public function optimalVarDiscount()
     {
         return max($this->arrayOfVariableDiscounts($this->getGroup()));
     }
-/*
-    public function finalVariableDiscount(Product $product){
+
+// returns in cents the value of the highest variable discount of the product
+    public function finalVariableDiscount(Product $product)
+    {
         $max = $this->optimalVarDiscount();
-        return   ($product->getPrice()/100) * $max;
-    }*/
+        return ($product->getPrice() / 100) * $max;
+    }
 
-
+// creates an array of all associated fixed discounts
     public function arrayOfFixedDiscounts(Group $group, $array = []): array
     {
         $array[] = $group->getFixDiscount();
@@ -113,24 +116,42 @@ class Customer
         return $array;
     }
 
+// returns the summation of all the available group fixed discounts
     public function sumFixedDiscount()
     {
-     return array_sum($this->arrayOfFixedDiscounts($this->getGroup())) * 100;
+        return array_sum($this->arrayOfFixedDiscounts($this->getGroup())) * 100;
     }
 
-    public function calculatePrice(Product $product) {
-        $variable =$this->optimalVarDiscount();
+// Calculates price using either the best variable or fixed discounts in cents and prevents cost being less than 0
+    public function calculatePrice(Product $product)
+    {
+        $variable = $this->optimalVarDiscount();
         $fixed = $this->sumFixedDiscount();
+        $price = $product->getPrice();
+        $VariableAsFixed = ($price / 100) * $variable;
 
-        if( $variable > $fixed ) {
 
-           $product->getPrice() - $variable;
+        if ($VariableAsFixed > $fixed) {
+
+            $endPrice = $price - $VariableAsFixed;
+            if ($endPrice < 0) {
+                $endPrice = 0;
+                return $endPrice;
+            } else {
+                return $endPrice /100;
+            }
+
+        } elseif ($fixed > $VariableAsFixed) {
+            $endPrice = $price - $fixed;
+            if ($endPrice < 0) {
+                $endPrice = 0;
+                return $endPrice;
+            } else {
+                return $endPrice/100;
+            }
         }
-
     }
 }
-
-
 
 
 

@@ -32,6 +32,9 @@ Anything complex should be calculated in the model -->
             </div>
             <input id="linkBtn" type="submit" name="send" value="Checkout">
         </form>
+        <?php
+
+        ?>
     </section>
 
 
