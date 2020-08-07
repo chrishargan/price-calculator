@@ -76,9 +76,9 @@ class Customer
     public function calculatePrice(Product $product) : float {
         $price = $product->getPrice();
         //fixed discounts get added up
-        $fixGroup = array_sum($this->fixedDiscountArray($this->group))*100;
+        $fixGroup = array_sum($this->fixedDiscountArray($this->getGroup()))*100;
         //get biggest variable discount
-        $varGroup = (($price/100) * max($this->variableDiscountArray($this->group)));
+        $varGroup = (($price/100) * max($this->variableDiscountArray($this->getGroup())));
         //check if fixed discount or variable discount of the group is bigger
         $varGroup > $fixGroup ? $resultGroupVar = $varGroup : $resultGroupFix = $fixGroup;
         //compare the result with the customer discount
@@ -90,12 +90,12 @@ class Customer
             } elseif ($resultGroupFix > $varCustomer) {
                 $price -= $resultGroupFix;
             } else {
-                $price -= $resultGroupVar;
+                $price -= $varCustomer;
             }
         } elseif (isset($resultGroupVar)) {
             if ($varCustomer !== null) {
                 $price -= max($resultGroupVar, $varCustomer);
-            } elseif ($fixCustomer !== null && $fixCustomer > $resultGroupVar) {
+            } elseif ($fixCustomer > $resultGroupVar) {
                 $price -= $fixCustomer;
             } else {
                 $price -= $resultGroupVar;
