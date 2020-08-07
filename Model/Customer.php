@@ -45,10 +45,6 @@ class Customer
         return $this->firstName . " " . $this->lastName;
     }
 
-    public function getNestedGroups(): Group
-    {
-        return $this->group . $this->group . $this->group;
-    }
 
     public function getFixDiscount(): int
     {
@@ -65,19 +61,7 @@ class Customer
         return $this->group;
     }
 
-    public function calculateFixDiscount()
-    {
-        if ($this->group->getFixDiscount() !== 0) {
-            $this->discounts[] += $this->group->getFixDiscount();
-        } else
-            $this->discounts += 0;
-        $subGroup = $this->group->getGroup();
-        if ($subGroup->getFixDiscount() !== 0) {
-            $this->discounts[] += $subGroup->getFixDiscount();
-        } else {
-            $this->discounts += 0;
-        }
-    }
+
 
 // Creates array of all group related Variable discounts
     public function arrayOfVariableDiscounts(Group $group, $array = []): array
@@ -95,6 +79,7 @@ class Customer
 // returns the variable discount of the highest percentage
     public function optimalVarDiscount()
     {
+
         return max($this->arrayOfVariableDiscounts($this->getGroup()));
     }
 
@@ -123,14 +108,43 @@ class Customer
     }
 
 // Calculates price using either the best variable or fixed discounts in cents and prevents cost being less than 0
-    public function calculatePrice(Product $product)
+    public function calculatePrice(Product $product) :float
     {
-        $variable = $this->optimalVarDiscount();
+        $variable = $this->finalVariableDiscount($product);
         $fixed = $this->sumFixedDiscount();
         $price = $product->getPrice();
-        $VariableAsFixed = ($price / 100) * $variable;
+
+        $variable > $fixed ? $resultGroupVar = $variable : $resultGroupFix = $fixed;
+        //compare the result with the customer discount
+        $varCustomer = ($price/100) * $this->getVarDiscount();
+        $fixCustomer = $this->getFixDiscount()*100;
+        if (isset($resultGroupFix)) {
+            if ($fixCustomer !== 0) {
+                $price = $price - $resultGroupFix - $fixCustomer;
+            } else {
+                $price -= $resultGroupFix;
+                $price *= $this->getVarDiscount() / 100;
+            }
+        } elseif (isset($resultGroupVar)) {
+            if ($fixCustomer !== 0) {
+                $price -= $fixCustomer;
+                $price *= $this->optimalVarDiscount() / 100;
+
+            } else {
+                $price -= max($resultGroupVar, $varCustomer);
+            }
+        }
+        //price with 2 decimals
+        $price = round($price/100, 2);
+        //price cannot be lower than 0
+        if ($price < 0) {
+            $price = 0;
+        }
+        return $price;
+    }
 
 
+/*
         if ($VariableAsFixed > $fixed) {
 
             $endPrice = $price - $VariableAsFixed;
@@ -148,48 +162,9 @@ class Customer
                 return $endPrice;
             } else {
                 return $endPrice/100;
-            }
-        }
-    }
+            }*/
+
+
 }
 
-
-
-/*class CustomerGroup extends Customer
-{
-
-    public array $groupId;
-    private int $parentId;
-    private int $fixedDiscount;
-    private int $variableDiscount;
-    private array $discounts;
-
-    public function __construct(Customer $customer)
-    {
-        $customerGroupId = $customer->getGroup();
-        $database = new DatabaseLoader();
-        $database->openConnection();
-        $pdo = $database->getPdo();
-        $statement = $pdo->prepare('SELECT parent_id, fixed_disocunt,variable_discount from customer_group where id =:id');
-        $statement->bindValue('id', $customerGroupId);
-        $statement->execute();
-        $totalArray = $statement->fetch();
-        $this->parentId = intval($totalArray['parent_id']);
-        $this->discounts['fixed'] = intval($totalArray['fixed_discount']);
-        $this->discounts['variable'] = intval($totalArray['variable_discount']);
-        $this->setDiscounts();
-
-    }
- private function setDiscounts()  : void {
-   $database= new DatabaseLoader();
-   $database->openConnection();
-
-   $parentId = $this->getParentId();
-   $statement = $pdo->
-   $statement = ($parent['fixed_discount'])
-
-
- }
-}
-*/
 
